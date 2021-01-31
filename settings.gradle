@@ -1,0 +1,2 @@
+rootProject.name = "NabAssignment"
+include ':app'

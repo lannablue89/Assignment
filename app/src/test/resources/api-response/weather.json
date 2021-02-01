@@ -1,0 +1,51 @@
+{
+  "city": {
+    "id": 1580578,
+    "name": "Ho Chi Minh City",
+    "coord": {
+      "lon": 106.6667,
+      "lat": 10.8333
+    },
+    "country": "VN",
+    "population": 0,
+    "timezone": 25200
+  },
+  "cod": "200",
+  "message": 0.1022997,
+  "cnt": 1,
+  "list": [
+    {
+      "dt": 1612069200,
+      "sunrise": 1612048613,
+      "sunset": 1612090588,
+      "temp": {
+        "day": 305.79,
+        "min": 295.44,
+        "max": 307.45,
+        "night": 297.95,
+        "eve": 301.73,
+        "morn": 295.44
+      },
+      "feels_like": {
+        "day": 307.52,
+        "night": 299.62,
+        "eve": 301.94,
+        "morn": 296
+      },
+      "pressure": 1013,
+      "humidity": 40,
+      "weather": [
+        {
+          "id": 804,
+          "main": "Clouds",
+          "description": "overcast clouds",
+          "icon": "04d"
+        }
+      ],
+      "speed": 1.07,
+      "deg": 12,
+      "clouds": 94,
+      "pop": 0
+    }
+  ]
+}

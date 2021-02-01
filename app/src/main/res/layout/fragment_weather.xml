@@ -13,7 +13,19 @@
         <EditText
             android:id="@+id/ed_search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/space_small"
+            android:textColor="@color/black"
+            android:textColorHint="@color/text_hint"
+            android:hint="@string/search_weather_hint" />
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_small"
+            android:layout_marginBottom="@dimen/space_small"
+            android:text="@string/get_weather" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"

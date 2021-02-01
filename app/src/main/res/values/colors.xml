@@ -11,5 +11,6 @@
     <color name="red">#B00020</color>
 
     <color name="text_dark">#CC000000</color>
+    <color name="text_hint">#55000000</color>
     <color name="divider">#E0E0E0</color>
 </resources>

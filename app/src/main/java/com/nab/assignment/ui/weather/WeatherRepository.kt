@@ -16,14 +16,16 @@ class WeatherRepository@Inject constructor(
     private val apiService: WeatherService,
 ) {
 
-    fun getWeatherForecast() : Flow<Resource<List<Weather>>> = flow {
+    fun getWeatherForecast(searchKey: String) : Flow<Resource<List<Weather>>> = flow {
         runCatching {
+
             emit(Resource.loading(null))
 
-            val weatherResponse = apiService.getWeatherInfo()
+            val weatherResponse = apiService.getWeatherInfo(searchKey)
 
             if (weatherResponse.code == 200) {
-                emit(Resource.success(weatherResponse.list?.map { it.toWeatherModel() }))
+                val results = weatherResponse.list.map { weather -> weather.toWeatherModel() }
+                emit(Resource.success(results))
             } else {
                 emit(Resource.error(Exception(weatherResponse.errorMessage), null))
             }

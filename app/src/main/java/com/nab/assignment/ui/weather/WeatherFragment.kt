@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nab.assignment.R
 import com.nab.assignment.databinding.FragmentWeatherBinding
+import com.nab.assignment.model.Resource.Companion.isError
 import com.nab.assignment.model.Status
 import dagger.android.support.DaggerFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,16 +48,29 @@ class WeatherFragment : DaggerFragment() {
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = adapter
 
+            btnSubmit.setOnClickListener {
+                viewModel.fetchSearchData(edSearch.text.toString())
+            }
+
             swipeRefreshLayout.setOnRefreshListener {
                 viewModel.fetchData()
             }
         }
 
         viewModel.data.observe(viewLifecycleOwner) {
-            binding.swipeRefreshLayout.isRefreshing = (it.status == Status.LOADING)
-            adapter.submitList(it.data)
-        }
+            if (it.status == Status.LOADING) {
+                binding.swipeRefreshLayout.isRefreshing = true
+                binding.btnSubmit.isEnabled = false
+            } else {
+                binding.swipeRefreshLayout.isRefreshing = false
+                binding.btnSubmit.isEnabled = true
+                adapter.submitList(it.data)
 
+                if (it.isError()) {
+                    Toast.makeText(context, it.error!!.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     override fun onResume() {

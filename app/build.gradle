@@ -6,6 +6,12 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 
+def keystorePropertiesFile = file("../keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.canRead()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     compileSdkVersion build_versions.compile_versions
 
@@ -26,15 +32,49 @@ android {
             applicationIdSuffix ".sandbox"
 
             buildConfigField "String", "ENDPOINT", '"https://api.openweathermap.org/"'
+            buildConfigField "String", "API_KEY", keystoreProperties['API_KEY']
+        }
+    }
+
+    signingConfigs {
+        if (keystoreProperties.containsKey('debugStoreFile')) {
+            debug {
+                keyAlias keystoreProperties['debugKeyAlias']
+                keyPassword keystoreProperties['debugKeyPassword']
+                storeFile file(keystoreProperties['debugStoreFile'])
+                storePassword keystoreProperties['debugStorePassword']
+            }
+        }
+
+        if (keystoreProperties.containsKey('releaseStoreFile')) {
+            release {
+                keyAlias keystoreProperties['releaseKeyAlias']
+                keyPassword keystoreProperties['releaseKeyPassword']
+                storeFile file(keystoreProperties['releaseStoreFile'])
+                storePassword keystoreProperties['releaseStorePassword']
+            }
         }
     }
 
     buildTypes {
+        debug {
+            debuggable true
+            if (keystoreProperties.containsKey('debugStoreFile')) {
+                signingConfig signingConfigs.debug
+            }
+        }
+
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable false
+            if (keystoreProperties.containsKey('releaseStoreFile')) {
+                signingConfig signingConfigs.release
+            }
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

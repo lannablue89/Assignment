@@ -1,5 +1,6 @@
 package com.nab.assignment.network
 
+import com.nab.assignment.BuildConfig
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,6 +14,6 @@ interface WeatherService {
     suspend fun getWeatherInfo(
         @Query("q") searchKey: String = "saigon",
         @Query("cnt") days: Int = 7,
-        @Query("appid") apiKey: String = "60c6fbeb4b93ac653c492ba806fc346d",
+        @Query("appid") apiKey: String = BuildConfig.API_KEY,
     ) : WeatherResponse
 }
